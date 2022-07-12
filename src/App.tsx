@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useEffect, useState } from "react";
+import Canvas from "./Convas";
 
 function App() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch(
+      "https://api.binance.com/api/v3/klines?symbol=BTCEUR&interval=1d&limit=200"
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        setData(res);
+      });
+  }, []);
+
+  console.log(data);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>비트코인 1시간 캔들 차트</h1>
+      <section>
+        <Canvas />
+      </section>
     </div>
   );
 }
